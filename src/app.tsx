@@ -38,7 +38,6 @@ import {
 } from '@mui/icons-material';
 
 import {
-  TickerTapeWidget,
   AdvancedChartWidget,
   TechnicalWidget,
   NewsWidget,
