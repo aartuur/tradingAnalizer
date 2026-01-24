@@ -66,7 +66,8 @@ const App: React.FC = () => {
   const handleAssetSelect = (symbol: string) => setCustomSymbol(symbol);
   const handleResetSymbol = () => setCustomSymbol(null);
 
-  const getIcon = (key: keyof MarketCategories) => {
+
+  const getIcon = (key: string) => {
     switch(key) {
       case 'indices': return <Public />;
       case 'forex': return <ShowChart />;
@@ -108,7 +109,7 @@ const App: React.FC = () => {
               '&:hover': { bgcolor: '#111' }
             }}
           >
-            <ListItemIcon sx={{ minWidth: 0, color: activeCategory === key ? '#00f2ff' : '#666' }}>{getIcon(key)}</ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 0, color: activeCategory === key ? '#00f2ff' : '#666' }}>{getIcon(String(key))}</ListItemIcon>
           </ListItemButton>
         ))}
       </List>
