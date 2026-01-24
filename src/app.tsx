@@ -66,7 +66,7 @@ const App: React.FC = () => {
   const handleAssetSelect = (symbol: string) => setCustomSymbol(symbol);
   const handleResetSymbol = () => setCustomSymbol(null);
 
-  const getIcon = (key: string) => {
+  const getIcon = (key: keyof MarketCategories) => {
     switch(key) {
       case 'indices': return <Public />;
       case 'forex': return <ShowChart />;

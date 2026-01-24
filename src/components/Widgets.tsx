@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
   TickerTape, 
   AdvancedRealTimeChart, 
@@ -10,7 +9,6 @@ import {
   CryptoCurrencyMarket,
   CompanyProfile,
   FundamentalData,
-  MarketData,
   Screener
 } from "react-ts-tradingview-widgets";
 

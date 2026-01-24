@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  Box, Typography, Chip, Divider, LinearProgress, Grid, 
+  Box, Typography, Chip, Divider, LinearProgress, 
   CircularProgress, Paper, Stack, List, ListItem, ListItemText, ListItemIcon, IconButton, useTheme, useMediaQuery, Button 
 } from '@mui/material';
 import { 
@@ -236,13 +236,14 @@ const MarketBrain: React.FC<MarketBrainProps> = ({ symbol, categoryType, onClose
       {/* 2. SCROLLABLE CONTENT AREA */}
       <Box sx={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', width: '100%', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 40 }}>
         
-        <Grid container spacing={0} sx={{ width: '100%', m: 0 }}>
+        <Box sx={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', width: '100%', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, position: 'relative', zIndex: 40 }}>
           
           {/* COLONNA 1: VERDICT */}
-          <Grid item xs={12} md={3} sx={{ 
+          <Box sx={{ 
+             width: { xs: '100%', md: '25%' },
              borderRight: { md: '1px solid #222' }, 
              borderBottom: { xs: '1px solid #222', md: 'none' },
-             p: { xs: 2, md: 3 }, width: '100%',
+             p: { xs: 2, md: 3 },
              display: 'flex', flexDirection: 'column', 
              justifyContent: 'center', position: 'relative', overflow: 'hidden', 
              minHeight: { xs: 'auto', md: '500px' }
@@ -272,13 +273,14 @@ const MarketBrain: React.FC<MarketBrainProps> = ({ symbol, categoryType, onClose
                   <Typography variant="body2" fontWeight="bold" color="#fff">{signal.institutionalAction}</Typography>
                </Box>
              </Box>
-          </Grid>
+          </Box>
 
           {/* COLONNA 2: LOGIC */}
-          <Grid item xs={12} md={5} sx={{ 
+          <Box sx={{ 
+              width: { xs: '100%', md: '41.6667%' },
               borderRight: { md: '1px solid #222' }, 
               borderBottom: { xs: '1px solid #222', md: 'none' },
-              width: '100%', display: 'flex', flexDirection: 'column'
+              display: 'flex', flexDirection: 'column'
           }}>
              <Box sx={{ p: 1.5, bgcolor: '#050505', borderBottom: '1px solid #222' }}>
                 <Typography variant="caption" sx={{ color: '#00f2ff', display: 'flex', alignItems: 'center', gap: 1, fontWeight: 'bold' }}>
@@ -318,22 +320,21 @@ const MarketBrain: React.FC<MarketBrainProps> = ({ symbol, categoryType, onClose
                 <Divider sx={{ my: 2.5, borderColor: '#222' }} />
                 
                 <Typography variant="caption" color="textSecondary" sx={{ mb: 1.5, display: 'block', fontWeight: 'bold' }}>KEY INSTITUTIONAL LEVELS</Typography>
-                <Grid container spacing={1}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                    {signal.keyLevels.map((lvl, idx) => (
-                      <Grid item xs={4} key={idx}>
-                         <Box sx={{ p: 1, border: '1px solid #222', bgcolor: '#080808', borderRadius: 1, textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                            <Typography variant="caption" display="block" sx={{ fontSize: '0.6rem', mb: 0.5 }} color={lvl.type.includes('Resistance') ? '#ff4444' : (lvl.type.includes('Support') ? '#00ff41' : '#00f2ff')}>{lvl.type.split(' ')[0]}</Typography>
-                            <Typography variant="body2" fontWeight="bold" color="white">{lvl.price}</Typography>
-                         </Box>
-                      </Grid>
+                      <Box key={idx} sx={{ flex: '1 1 30%', p: 1, border: '1px solid #222', bgcolor: '#080808', borderRadius: 1, textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                         <Typography variant="caption" display="block" sx={{ fontSize: '0.6rem', mb: 0.5 }} color={lvl.type.includes('Resistance') ? '#ff4444' : (lvl.type.includes('Support') ? '#00ff41' : '#00f2ff')}>{lvl.type.split(' ')[0]}</Typography>
+                         <Typography variant="body2" fontWeight="bold" color="white">{lvl.price}</Typography>
+                      </Box>
                    ))}
-                </Grid>
+                </Box>
              </Box>
-          </Grid>
+          </Box>
 
           {/* COLONNA 3: EXECUTION */}
-          <Grid item xs={12} md={4} sx={{ 
-              display: 'flex', flexDirection: 'column', bgcolor: '#050505', width: '100%'
+          <Box sx={{ 
+              width: { xs: '100%', md: '33.3333%' },
+              display: 'flex', flexDirection: 'column', bgcolor: '#050505'
           }}>
              <Box sx={{ p: 1.5, bgcolor: '#080808', borderBottom: '1px solid #222' }}>
                 <Typography variant="caption" sx={{ color: '#ff0055', display: 'flex', alignItems: 'center', gap: 1, fontWeight: 'bold' }}>
@@ -343,20 +344,16 @@ const MarketBrain: React.FC<MarketBrainProps> = ({ symbol, categoryType, onClose
              
              <Box sx={{ p: { xs: 2, md: 3 }, flex: 1, pb: 4 }}>
                 {/* ENTRY & SL */}
-                <Grid container spacing={2} sx={{ mb: 3 }}>
-                   <Grid item xs={6}>
-                      <Paper variant="outlined" sx={{ p: 1.5, borderColor: '#333', bgcolor: '#000', borderRadius: 0 }}>
-                         <Typography variant="caption" color="#888" fontWeight="bold">ENTRY ({signal.entryType})</Typography>
-                         <Typography variant="h6" color="#fff" sx={{ mt: 0.5 }}>{signal.entryPrice}</Typography>
-                      </Paper>
-                   </Grid>
-                   <Grid item xs={6}>
-                      <Paper variant="outlined" sx={{ p: 1.5, borderColor: 'rgba(255,0,0,0.3)', bgcolor: 'rgba(255,0,0,0.05)', borderRadius: 0 }}>
-                         <Typography variant="caption" color="#ff4444" fontWeight="bold">STOP LOSS</Typography>
-                         <Typography variant="h6" color="#ff4444" sx={{ mt: 0.5 }}>{signal.invalidationLevel}</Typography>
-                      </Paper>
-                   </Grid>
-                </Grid>
+                <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+                   <Paper variant="outlined" sx={{ flex: 1, p: 1.5, borderColor: '#333', bgcolor: '#000', borderRadius: 0 }}>
+                      <Typography variant="caption" color="#888" fontWeight="bold">ENTRY ({signal.entryType})</Typography>
+                      <Typography variant="h6" color="#fff" sx={{ mt: 0.5 }}>{signal.entryPrice}</Typography>
+                   </Paper>
+                   <Paper variant="outlined" sx={{ flex: 1, p: 1.5, borderColor: 'rgba(255,0,0,0.3)', bgcolor: 'rgba(255,0,0,0.05)', borderRadius: 0 }}>
+                      <Typography variant="caption" color="#ff4444" fontWeight="bold">STOP LOSS</Typography>
+                      <Typography variant="h6" color="#ff4444" sx={{ mt: 0.5 }}>{signal.invalidationLevel}</Typography>
+                   </Paper>
+                </Box>
 
                 {/* TARGETS */}
                 <Stack spacing={1} sx={{ mb: 3 }}>
@@ -393,8 +390,8 @@ const MarketBrain: React.FC<MarketBrainProps> = ({ symbol, categoryType, onClose
                    </Box>
                 </Box>
              </Box>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Box>
 
       {/* 3. NEW FIXED BOTTOM FOOTER (Per garantire chiusura su mobile) */}
