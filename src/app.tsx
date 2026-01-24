@@ -569,9 +569,7 @@ const App: React.FC = () => {
       <CssBaseline />
 
       <AppBar position="fixed" sx={{ zIndex: 1400, height: '56px', borderBottom: '1px solid rgba(0, 242, 255, 0.15)' }}>
-        <Box sx={{ position: 'absolute', inset: 0, zIndex: -2, opacity: 0.6 }}>
-          <TickerTapeWidget />
-        </Box>
+
         <Box
           sx={{
             position: 'absolute',
