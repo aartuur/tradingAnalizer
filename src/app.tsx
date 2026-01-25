@@ -728,15 +728,46 @@ const App: React.FC = () => {
         <Box component="main" sx={{ flexGrow: 1, width: '100%', height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
           {isLoading && <Loader />}
 
-          <Split
-            dir="column"
-            persistKey="layout:topAreaPct"
-            initialPct={68}
-            minPct={35}
-            maxPct={85}
-            a={<Box sx={{ width: '100%', height: '100%', borderBottom: '1px solid #222', minHeight: 0 }}>{topArea}</Box>}
-            b={<Box sx={{ width: '100%', height: '100%', bgcolor: '#080808', minHeight: 0 }}>{bottomArea}</Box>}
-          />
+          {isMobile ? (
+            // Mobile layout: Stack all major sections vertically
+            <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+              {/* Chart Pane */}
+              <Box sx={{ width: '100%', minHeight: '300px', flexShrink: 0 }}>{chartPane}</Box>
+              {/* Right Pane (Widgets) */}
+              <Box sx={{ width: '100%', minHeight: '300px', flexShrink: 0, borderTop: '1px solid #222' }}>{rightPane}</Box>
+              {/* Bottom Left (Global Screener) */}
+              <Box sx={{ width: '100%', minHeight: '300px', flexShrink: 0, borderTop: '1px solid #222' }}>
+                <Box sx={{ p: 0.5, bgcolor: '#0a0a0a', borderBottom: '1px solid #222', display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Map sx={{ fontSize: 14, color: '#00f2ff' }} />
+                  <Typography variant="caption" fontWeight="bold">
+                    GLOBAL SCREENER
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>{renderBottomLeft()}</Box>
+              </Box>
+              {/* Bottom Right (Liquidity Heatmap) */}
+              <Box sx={{ width: '100%', minHeight: '300px', flexShrink: 0, borderTop: '1px solid #222' }}>
+                <Box sx={{ p: 0.5, bgcolor: '#0a0a0a', borderBottom: '1px solid #222', display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <DataUsage sx={{ fontSize: 14, color: '#ff0055' }} />
+                  <Typography variant="caption" fontWeight="bold">
+                    LIQUIDITY HEATMAP
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>{renderBottomRight()}</Box>
+              </Box>
+            </Box>
+          ) : (
+            // Desktop layout: Use Split components
+            <Split
+              dir="column"
+              persistKey="layout:topAreaPct"
+              initialPct={68}
+              minPct={35}
+              maxPct={85}
+              a={<Box sx={{ width: '100%', height: '100%', borderBottom: '1px solid #222', minHeight: 0 }}>{topArea}</Box>}
+              b={<Box sx={{ width: '100%', height: '100%', bgcolor: '#080808', minHeight: 0 }}>{bottomArea}</Box>}
+            />
+          )}
         </Box>
       </Box>
     </ThemeProvider>
