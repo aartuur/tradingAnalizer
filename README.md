@@ -1,2 +1,1 @@
-# tradingAnalizer
-# tradingAnalizer
+
